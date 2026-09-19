@@ -1,0 +1,25 @@
+{
+  "_comment": "Format for .opencodereview/rule.json — user-supplied review rules that override or extend system defaults",
+  "_resolution_order": [
+    "1. --rule <path> flag (highest priority)",
+    "2. <repo>/.opencodereview/rule.json",
+    "3. ~/.opencodereview/rule.json",
+    "4. Built-in system defaults from specs/system_rules.json (lowest)"
+  ],
+  "_first_match_wins": "Rules are matched in array order. First matching path wins for that file. Without merge_system_rule, user rule replaces the system rule entirely.",
+  "rules": [
+    {
+      "path": "**/*.java",
+      "rule": "All new methods must validate required parameters for null. Check for missing @NonNull annotations.",
+      "merge_system_rule": true
+    },
+    {
+      "path": "**/*mapper*.xml",
+      "rule": "Check SQL for injection risks, missing closing tags, and N+1 query patterns."
+    },
+    {
+      "path": "internal/critical/**.go",
+      "rule": "Extra scrutiny: this package handles payment data. Flag any use of fmt.Sprintf for SQL construction."
+    }
+  ]
+}
